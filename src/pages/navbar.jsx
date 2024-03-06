@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
 import logo from "../assets/TF_logo.svg"
 import { useNavigate } from 'react-router-dom';
-import Downarrow from "../assets/chevron.svg"
 import metrics_icon from "../assets/metrics-gray.png"
 import logs_icon from "../assets/list.png"
 import active_metrics_icon from "../assets/metrics.png"
 import active_logs_icon from "../assets/list-active.png"
 import active_option from "../assets/active_option.png"
 import underline from "../assets/underline.png"
-
+import { useDispatch, useSelector } from 'react-redux';
 
 function Navbar() {
 
+
+
+    const dispatch = useDispatch();
+    const selectedField = useSelector((state) => state.selectedField);
+
+    const changeSelectedField = (value) => {
+        dispatch({ type: 'SET_SELECTED_FIELD', payload: value });
+    };
 
     const path = window.location.pathname;
     const navigate = useNavigate()
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedField, setSelectedField] = useState(5)
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -75,33 +81,33 @@ function Navbar() {
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 text-bold">
 
                             <div className='flex items-center text-gray-800 hover:bg-gray-100'>
-                                <li className="block px-4 py-2 cursor-pointer text-lg" value={5} onClick={(e) => { setSelectedField(e.target.value) }} > Last 5 minutes</li>
+                                <li className="block px-4 py-2 cursor-pointer text-lg" value={5} onClick={(e) => { changeSelectedField(e.target.value) }} > Last 5 minutes</li>
                                 {selectedField == 5 && <img src={active_option} alt="active option" width={12} />}
                             </div>
                             <hr />
                             <div className='flex items-center text-gray-800 hover:bg-gray-100'>
-                                <li className="block px-4 py-2 cursor-pointer text-lg " value={15} onClick={(e) => { setSelectedField(e.target.value) }}>Last 15 minutes</li>
+                                <li className="block px-4 py-2 cursor-pointer text-lg " value={15} onClick={(e) => { changeSelectedField(e.target.value) }}>Last 15 minutes</li>
                                 {selectedField == 15 && <img src={active_option} alt="active option" width={12} />}
                             </div>
                             <hr />
                             <div className='flex items-center text-gray-800 hover:bg-gray-100'>
-                                <li className="block px-4 py-2 cursor-pointer  text-lg " value={30} onClick={(e) => { setSelectedField(e.target.value) }}>Last 30 minutes</li>
+                                <li className="block px-4 py-2 cursor-pointer  text-lg " value={30} onClick={(e) => { changeSelectedField(e.target.value) }}>Last 30 minutes</li>
                                 {selectedField == 30 && <img src={active_option} alt="active option" width={12} />}
                             </div>
                             <hr />
                             <div className='flex items-center text-gray-800 hover:bg-gray-100'>
-                                <li className="block px-4 py-2 cursor-pointer  text-lg" value={60} onClick={(e) => { setSelectedField(e.target.value) }}>Last 1 hour   </li>
+                                <li className="block px-4 py-2 cursor-pointer  text-lg" value={60} onClick={(e) => { changeSelectedField(e.target.value) }}>Last 1 hour   </li>
                                 {selectedField == 60 && <img src={active_option} alt="active option" width={12} />}
                             </div>
                             <hr />
                             <div className='flex items-center text-gray-800 hover:bg-gray-100'>
-                                <li className="block px-4 py-2 cursor-pointer  text-lg " value={180} onClick={(e) => { setSelectedField(e.target.value) }}>Last 3 hour  </li>
+                                <li className="block px-4 py-2 cursor-pointer  text-lg " value={180} onClick={(e) => { changeSelectedField(e.target.value) }}>Last 3 hour  </li>
                                 {selectedField == 180 && <img src={active_option} alt="active option" width={12} />}
                             </div>
                             <hr />
                             <div className='flex items-center text-gray-800 hover:bg-gray-100'>
-                                <li className="block px-4 py-2 cursor-pointer  text-lg " value={300} onClick={(e) => { setSelectedField(e.target.value) }}>Last 6 hour  </li>
-                                {selectedField == 300 && <img src={active_option} alt="active option" width={12} />}
+                                <li className="block px-4 py-2 cursor-pointer  text-lg " value={360} onClick={(e) => { changeSelectedField(e.target.value) }}>Last 6 hour  </li>
+                                {selectedField == 360 && <img src={active_option} alt="active option" width={12} />}
                             </div>
                         </div>
                     )}

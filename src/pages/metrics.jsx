@@ -3,6 +3,7 @@ import Navbar from "./navbar";
 import { MimicMetrics } from "../API/api-mimic";
 import 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
 
 const Metrics = () => {
 
@@ -11,9 +12,10 @@ const Metrics = () => {
     const [memory_usage, setMemory_Usage] = useState([]);
     const [network_usage, setNetwork_Usage] = useState([]);
     const [disk_iops, setDisk_Iops] = useState([]);
-
-
     const [cpuUsageData, setCpuUsageData] = useState({});
+    const selectedField = useSelector((state) => state.selectedField);
+
+
 
     // Converting unstructured data of Cpu Usage to structured format for ChartJS
     useEffect(() => {
@@ -174,7 +176,7 @@ const Metrics = () => {
     const FetchMetricsData = async () => {
         setLoading(true);
         try {
-            const response = await MimicMetrics.fetchMetrics({ startTs: 20, endTs: 18000 });
+            const response = await MimicMetrics.fetchMetrics({ startTs: 0, endTs: selectedField * 100 });
             if (response != []) {
                 setCpu_Usage(response[0]);
                 setMemory_Usage(response[1]);
@@ -192,7 +194,11 @@ const Metrics = () => {
 
     useEffect(() => {
         FetchMetricsData();
-    }, [])
+    }, [selectedField])
+
+
+
+
 
 
 
