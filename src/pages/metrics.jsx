@@ -155,7 +155,8 @@ const Metrics = () => {
             datasets.push({
                 label: data?.name,
                 data: allvalue,
-                fill: false,
+                fill: true,
+                backgroundColor: (data?.name == "Read" ? "rgba(206, 224, 248, 0.3)" : "rgba(255, 99, 71, 0.4)"),
                 borderColor: (data?.name == "Read" ? "rgba(37, 99, 235, 1)" : " rgba(220, 38, 38, 1)")
             })
         })
@@ -188,9 +189,6 @@ const Metrics = () => {
             console.log(error)
         }
     }
-
-
-
 
     useEffect(() => {
         FetchMetricsData();

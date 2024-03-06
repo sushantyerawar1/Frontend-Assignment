@@ -25,7 +25,7 @@ function Navbar() {
 
 
     return (
-        <div className="bg-white shadow-sm p-4">
+        <div className="bg-white shadow-lg p-4">
             <div className="flex items-center justify-between">
                 <div className="flex items-center">
                     <img src={logo} alt="TrueFoundry Logo" className="h-10 mr-2" />
