@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 const initialState = {
-    selectedField: 5,
+    selectedField: 30,
 };
 
 const reducer = (state = initialState, action) => {

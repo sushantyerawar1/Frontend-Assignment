@@ -1,11 +1,10 @@
 import react, { useState, useEffect } from "react"
-import Navbar from "./navbar";
-import { MimicMetrics } from "../API/api-mimic";
+import { MimicMetrics } from "../../API/api-mimic";
 import 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 
-const Metrics = () => {
+const MetricsPage = () => {
 
     const [loading, setLoading] = useState(true);
     const [cpu_usage, setCpu_Usage] = useState([]);
@@ -14,8 +13,6 @@ const Metrics = () => {
     const [disk_iops, setDisk_Iops] = useState([]);
     const [cpuUsageData, setCpuUsageData] = useState({});
     const selectedField = useSelector((state) => state.selectedField);
-
-
 
     // Converting unstructured data of Cpu Usage to structured format for ChartJS
     useEffect(() => {
@@ -158,7 +155,7 @@ const Metrics = () => {
                 label: data?.name,
                 data: allvalue,
                 fill: true,
-                backgroundColor: (data?.name == "Read" ? "rgba(206, 224, 248, 0.3)" : "rgba(255, 99, 71, 0.4)"),
+                backgroundColor: (data?.name == "Read" ? "rgba(206, 224, 248, 0.3)" : "rgba(255, 99, 71, 0.3)"),
                 borderColor: (data?.name == "Read" ? "rgba(37, 99, 235, 1)" : " rgba(220, 38, 38, 1)")
             })
         })
@@ -197,16 +194,8 @@ const Metrics = () => {
     }, [selectedField])
 
 
-
-
-
-
-
     return (
         <>
-            <Navbar />
-
-
             {loading ?
 
                 <div className="flex justify-center items-center mt-24">
@@ -250,14 +239,12 @@ const Metrics = () => {
 
                     </div>
                 </div>
-
-
             }
 
         </>
     )
 }
 
-export default Metrics;
+export default MetricsPage;
 
 

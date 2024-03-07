@@ -1,14 +1,14 @@
 import react, { useState, useEffect } from "react"
-import Navbar from "./navbar";
-import { MimicLogs } from "../API/api-mimic";
+import { MimicLogs } from "../../API/api-mimic";
 import { useSelector } from 'react-redux';
 
-const Logs = () => {
+const LogsPage = () => {
 
 
     const [logs, setLogs] = useState();
     const [loading, setLoading] = useState(true);
     const selectedField = useSelector((state) => state.selectedField);
+
 
     const FetchLogsData = async () => {
         setLoading(true);
@@ -34,7 +34,6 @@ const Logs = () => {
 
     return (
         <>
-            <Navbar />
             {loading ?
 
                 <div className="flex justify-center items-center mt-24">
@@ -64,15 +63,7 @@ const Logs = () => {
     )
 }
 
-export default Logs;
+export default LogsPage;
 
 
 
-// {
-//     logs.map((log, ind) => {
-//         <div key={ind}>
-//             {log["timestamp"]} - {log["message"]}
-//             {console.log(log["timestamp"])}
-//         </div>
-//     })
-// }

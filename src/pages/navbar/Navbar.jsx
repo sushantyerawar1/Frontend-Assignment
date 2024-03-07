@@ -1,38 +1,33 @@
 import React, { useState } from 'react';
-import logo from "../assets/TF_logo.svg"
+import logo from "../../assets/TF_logo.svg"
 import { useNavigate } from 'react-router-dom';
-import metrics_icon from "../assets/metrics-gray.png"
-import logs_icon from "../assets/list.png"
-import active_metrics_icon from "../assets/metrics.png"
-import active_logs_icon from "../assets/list-active.png"
-import active_option from "../assets/active_option.png"
-import underline from "../assets/underline.png"
+import metrics_icon from "../../assets/metrics-gray.png"
+import logs_icon from "../../assets/list.png"
+import active_metrics_icon from "../../assets/metrics.png"
+import active_logs_icon from "../../assets/list-active.png"
+import active_option from "../../assets/active_option.png"
+import underline from "../../assets/underline.png"
 import { useDispatch, useSelector } from 'react-redux';
 
 function Navbar() {
 
-
-
     const dispatch = useDispatch();
     const selectedField = useSelector((state) => state.selectedField);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const path = window.location.pathname;
+    const navigate = useNavigate();
 
     const changeSelectedField = (value) => {
         dispatch({ type: 'SET_SELECTED_FIELD', payload: value });
     };
 
-    const path = window.location.pathname;
-    const navigate = useNavigate()
-
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
-
     return (
         <div className="bg-white shadow-lg p-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between flex-wrap">
                 <div className="flex items-center">
                     <img src={logo} alt="TrueFoundry Logo" className="h-10 mr-2" />
                 </div>
@@ -66,20 +61,27 @@ function Navbar() {
                 </div>
 
                 <div className="relative">
-
-                    <div style={{ display: "flex", alignItems: "right", borderRadius: "4px", border: "1px solid rgba(62, 86, 128, 1)", justifyContent: "space-between", padding: "0 5px" }}>
-                        <button onClick={toggleDropdown} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(62, 86, 128, 1)", fontSize: "22px", display: "flex", alignItems: "center" }}>
+                    <div className="sm:hidden">
+                        <button onClick={toggleDropdown} className="text-gray-600 text-lg font-medium">
                             {selectedField >= 60 ? `Last ${selectedField / 60} hour` : `Last ${selectedField % 60} minutes`}
-                            <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                            <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                             </svg>
                         </button>
                     </div>
-
+                    <div className="hidden sm:block">
+                        <div style={{ display: "flex", alignItems: "right", borderRadius: "4px", border: "1px solid rgba(62, 86, 128, 1)", justifyContent: "space-between", padding: "0 5px" }}>
+                            <button onClick={toggleDropdown} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(62, 86, 128, 1)", fontSize: "22px", display: "flex", alignItems: "center" }}>
+                                {selectedField >= 60 ? `Last ${selectedField / 60} hour` : `Last ${selectedField % 60} minutes`}
+                                <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
                     {isDropdownOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 text-bold">
-
                             <div className='flex items-center text-gray-800 hover:bg-gray-100'>
                                 <li className="block px-4 py-2 cursor-pointer text-lg" value={5} onClick={(e) => { changeSelectedField(e.target.value) }} > Last 5 minutes</li>
                                 {selectedField == 5 && <img src={active_option} alt="active option" width={12} />}
