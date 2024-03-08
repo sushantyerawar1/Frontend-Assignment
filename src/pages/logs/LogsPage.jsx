@@ -8,12 +8,13 @@ const LogsPage = () => {
     const [logs, setLogs] = useState();
     const [loading, setLoading] = useState(true);
     const selectedField = useSelector((state) => state.selectedField);
-
+    const startTs = useSelector((state) => state.startTs);
+    const endTs = useSelector((state) => state.endTs);
 
     const FetchLogsData = async () => {
         setLoading(true);
         try {
-            const response = await MimicLogs.fetchPreviousLogs({ startTs: 0, endTs: selectedField, limit: 20 });
+            const response = await MimicLogs.fetchPreviousLogs({ startTs: startTs ? startTs : 0, endTs: endTs ? endTs : selectedField, limit: 20 });
             if (response != []) {
                 setLogs(response);
             }
@@ -26,10 +27,10 @@ const LogsPage = () => {
         }
     }
 
-
     useEffect(() => {
         FetchLogsData();
     }, [selectedField])
+
 
 
     return (

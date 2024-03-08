@@ -60,22 +60,29 @@ function Navbar() {
                     </button>
                 </div>
 
-                <div className="relative">
+                {/* {path == '/' && */}
+                <div className="relative" >
                     <div className="sm:hidden">
-                        <button onClick={toggleDropdown} className="text-gray-600 text-lg font-medium">
+                        <button onClick={toggleDropdown} className="text-gray-600 text-lg font-medium" disabled={path == '/logs'} >
                             {selectedField >= 60 ? `Last ${selectedField / 60} hour` : `Last ${selectedField % 60} minutes`}
-                            <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                            </svg>
+                            {
+                                path == '/' &&
+                                <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                </svg>
+                            }
                         </button>
                     </div>
                     <div className="hidden sm:block">
                         <div style={{ display: "flex", alignItems: "right", borderRadius: "4px", border: "1px solid rgba(62, 86, 128, 1)", justifyContent: "space-between", padding: "0 5px" }}>
-                            <button onClick={toggleDropdown} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(62, 86, 128, 1)", fontSize: "22px", display: "flex", alignItems: "center" }}>
+                            <button onClick={toggleDropdown} disabled={path == '/logs'} style={{ background: "none", border: "none", color: "rgba(62, 86, 128, 1)", fontSize: "22px", display: "flex", alignItems: "center" }}>
                                 {selectedField >= 60 ? `Last ${selectedField / 60} hour` : `Last ${selectedField % 60} minutes`}
-                                <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                                </svg>
+                                {
+                                    path == '/' &&
+                                    <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+                                    </svg>
+                                }
                             </button>
                         </div>
                     </div>
@@ -114,6 +121,7 @@ function Navbar() {
                         </div>
                     )}
                 </div>
+                {/* } */}
             </div >
         </div >
     );
