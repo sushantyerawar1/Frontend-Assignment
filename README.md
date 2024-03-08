@@ -14,9 +14,9 @@ This is a React application designed to allow users to fetch and view system log
 ### Metrics
 
 - Four charts (mix of line and area charts) rendered using Chart.js with React.
-- Selection and dragging over any section within a chart (Peak/valley) provides an option to check logs for the corresponding time range.
+  ![metrics](https://github.com/sushantyerawar1/Frontend-Assignment/assets/84599862/1dcefeca-17be-42f2-b5e9-48e51b680cd1)
 
-![metrics](https://github.com/sushantyerawar1/Frontend-Assignment/assets/84599862/1dcefeca-17be-42f2-b5e9-48e51b680cd1)
+- Selection and dragging over any section within a chart (Peak/valley) provides an option to check logs for the corresponding time range.
 
 ## Installation & Setup
 

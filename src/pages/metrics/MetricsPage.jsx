@@ -3,6 +3,7 @@ import { MimicMetrics } from "../../API/api-mimic";
 import Chart from "chart.js/auto";
 import SelectDragPlugin from "@01coder/chartjs-plugin-selectdrag";
 import { useDispatch, useSelector } from 'react-redux';
+import SelectionPopup from './SelectionPopup';
 
 Chart.register(SelectDragPlugin);
 
@@ -47,6 +48,15 @@ const MetricsPage = () => {
         changeTS("SET_ENDTS_VALUE", null)
     }, [selectedField]);
 
+
+
+
+    const [showPopup, setShowPopup] = useState(false);
+
+    const togglePopup = () => {
+        setShowPopup(!showPopup);
+    };
+
     useEffect(() => {
         const renderChart = (data, chartId) => {
             if (data) {
@@ -81,12 +91,11 @@ const MetricsPage = () => {
                                 selectdrag: {
                                     enabled: true,
                                     onSelectComplete: (event) => {
-
                                         const values = event.range
                                         if (!startTs && !endTs) {
+                                            togglePopup();
                                             changeTS("SET_STARTTS_VALUE", values[0])
                                             changeTS("SET_ENDTS_VALUE", values[1])
-
                                         }
 
                                     }
@@ -106,7 +115,7 @@ const MetricsPage = () => {
         }
     }, [cpuUsage, memoryUsage, networkUsage, diskIops]);
 
-
+    console.log(startTs, endTs, "metrics page")
 
     return (
         <>
@@ -121,6 +130,9 @@ const MetricsPage = () => {
                 <div className="container mx-auto p-4 m-4 border border-solid border-gray-300 rounded-lg ">
                     <h1 className="text-2xl font-bold mb-4 ml-2">Metrics</h1>
                     <hr />
+                    {showPopup && (
+                        <SelectionPopup startTs={startTs} endTs={endTs} onClose={togglePopup} />
+                    )}
                     <div className="flex flex-wrap mt-2">
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
@@ -149,6 +161,8 @@ const MetricsPage = () => {
                     </div>
                 </div>
             )}
+
+
         </ >
     );
 };

@@ -31,6 +31,8 @@ const LogsPage = () => {
         FetchLogsData();
     }, [selectedField])
 
+    console.log(startTs, endTs, "logs page")
+
     return (
         <>
             {loading ?
