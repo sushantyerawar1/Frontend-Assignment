@@ -2,21 +2,18 @@ import React, { useState, useEffect } from "react";
 import { MimicMetrics } from "../../API/api-mimic";
 import Chart from "chart.js/auto";
 import SelectDragPlugin from "@01coder/chartjs-plugin-selectdrag";
-import 'chart.js/auto';
 import { useDispatch, useSelector } from 'react-redux';
 
 Chart.register(SelectDragPlugin);
 
 const MetricsPage = () => {
 
-    const path = window.location.pathname;
+
     const [loading, setLoading] = useState(true);
     const [cpuUsage, setCpuUsage] = useState(null);
     const [memoryUsage, setMemoryUsage] = useState(null);
     const [networkUsage, setNetworkUsage] = useState(null);
     const [diskIops, setDiskIops] = useState(null);
-    // const [startTs, setStartTs] = useState(null);
-    // const [endTs, setEndTs] = useState(null);
 
     const dispatch = useDispatch();
     const selectedField = useSelector((state) => state.selectedField);
@@ -66,7 +63,7 @@ const MetricsPage = () => {
                     datasets.push({
                         label: line.name,
                         data: values,
-                        fill: false,
+                        fill: index == 3 ? true : false,
                         borderColor: index === 0 ? "rgba(5, 150, 105, 1)" : (index === 1 ? "rgba(37, 99, 235, 1)" : "rgba(220, 38, 38, 1)")
                     });
                 });
@@ -84,31 +81,23 @@ const MetricsPage = () => {
                                 selectdrag: {
                                     enabled: true,
                                     onSelectComplete: (event) => {
-                                        // setStartTs(null);
-                                        // setEndTs(null);
 
                                         const values = event.range
                                         if (!startTs && !endTs) {
                                             changeTS("SET_STARTTS_VALUE", values[0])
                                             changeTS("SET_ENDTS_VALUE", values[1])
-                                            // setStartTs(values[0]);
-                                            // setEndTs(values[1]);
-                                            // console.log(event.boundingBox);
+
                                         }
 
                                     }
                                 }
                             }
                         }
-                    });
+                    }
+                    );
                 }
             }
         };
-
-        // renderChart(cpuUsage, "cpuchart");
-        // renderChart(memoryUsage, "memorychart");
-        // renderChart(networkUsage, "networkchart");
-        // renderChart(diskIops, "diskIopschart");
 
         const chartIDs = ["cpuchart", "memorychart", "networkchart", "diskIopschart"]
         const chartDatas = [cpuUsage, memoryUsage, networkUsage, diskIops]
@@ -118,103 +107,6 @@ const MetricsPage = () => {
     }, [cpuUsage, memoryUsage, networkUsage, diskIops]);
 
 
-    // useEffect(() => {
-    //     const renderChart = (data, chartId) => {
-    //         if (data) {
-    //             const labels = [];
-    //             const datasets = [];
-
-    //             data.graphLines?.forEach((line, index) => {
-    //                 const values = line.values.map(value => {
-    //                     if (index === 0)
-    //                         labels.push(value.timestamp);
-    //                     return value.value;
-    //                 });
-
-    //                 datasets.push({
-    //                     label: line.name,
-    //                     data: values,
-    //                     fill: false,
-    //                     borderColor: index === 0 ? "rgba(5, 150, 105, 1)" : (index === 1 ? "rgba(37, 99, 235, 1)" : "rgba(220, 38, 38, 1)")
-    //                 });
-    //             });
-
-    //             const ctx = document.getElementById(chartId);
-    //             if (ctx) {
-    //                 const chart = new Chart(ctx, {
-    //                     type: "line",
-    //                     data: {
-    //                         labels: labels,
-    //                         datasets: datasets
-    //                     },
-    //                     options: {
-    //                         plugins: {
-    //                             selectdrag: {
-    //                                 enabled: true,
-    //                                 onSelectComplete: (event) => {
-    //                                     const values = event.range;
-    //                                     if (!startTs && !endTs) {
-    //                                         changeTS("SET_STARTTS_VALUE", values[0]);
-    //                                         changeTS("SET_ENDTS_VALUE", values[1]);
-    //                                         // Show a tooltip for the user to check logs
-    //                                         chart.options.plugins.tooltip.enabled = true;
-    //                                         chart.options.plugins.tooltip.custom = function (tooltip) {
-    //                                             // Tooltip styling
-    //                                             const tooltipEl = document.getElementById('chartjs-tooltip');
-    //                                             if (!tooltipEl) {
-    //                                                 const tooltipEl = document.createElement('div');
-    //                                                 tooltipEl.id = 'chartjs-tooltip';
-    //                                                 tooltipEl.classList.add('chartjs-tooltip');
-    //                                                 tooltipEl.innerHTML = '<span>Check logs for this time range</span>';
-    //                                                 document.body.appendChild(tooltipEl);
-    //                                             }
-
-    //                                             // Tooltip positioning
-    //                                             const position = chart.ctx.canvas.getBoundingClientRect();
-    //                                             tooltipEl.style.opacity = 1;
-    //                                             tooltipEl.style.position = 'absolute';
-    //                                             tooltipEl.style.left = position.left + window.pageXOffset + tooltip.caretX + 'px';
-    //                                             tooltipEl.style.top = position.top + window.pageYOffset + tooltip.caretY + 'px';
-    //                                         };
-    //                                     }
-    //                                 }
-    //                             },
-    //                             // tooltip: {
-    //                             //     enabled: true // Initially hide tooltip
-    //                             // }
-    //                         }
-    //                     }
-    //                 });
-
-    //                 // Store the chart instance so that we can access it later
-    //                 chartInstances.push(chart);
-    //             }
-    //         }
-    //     };
-
-    //     // Call renderChart for each chart
-    //     const chartIDs = ["cpuchart", "memorychart", "networkchart", "diskIopschart"];
-    //     const chartDatas = [cpuUsage, memoryUsage, networkUsage, diskIops];
-    //     const chartInstances = [];
-    //     for (let i = 0; i < 4; i++) {
-    //         renderChart(chartDatas[i], chartIDs[i]);
-    //     }
-
-    //     // Cleanup function to remove event listeners
-    //     return () => {
-    //         chartInstances.forEach(chart => {
-    //             chart.destroy();
-    //         });
-    //     };
-    // }, [cpuUsage, memoryUsage, networkUsage, diskIops]);
-
-
-    // useEffect(() => {
-    //     changeTS("SET_STARTTS_VALUE", null)
-    //     changeTS("SET_ENDTS_VALUE", null)
-    // }, [selectedField])
-
-    // console.log(startTs, endTs, "Timesssssssssssssss")
 
     return (
         <>
@@ -250,7 +142,7 @@ const MetricsPage = () => {
                         </div>
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
-                                DiskIOPS Usage
+                                Disk IOPS
                                 <canvas id="diskIopschart" style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>

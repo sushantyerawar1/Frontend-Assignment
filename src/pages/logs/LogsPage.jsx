@@ -31,8 +31,6 @@ const LogsPage = () => {
         FetchLogsData();
     }, [selectedField])
 
-
-
     return (
         <>
             {loading ?
