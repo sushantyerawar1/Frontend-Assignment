@@ -9,14 +9,14 @@ This is a React application designed to allow users to fetch and view system log
 - Terminal-like view rendering logs.
 - Quick selection for time-range (Last {n} minutes/hours) with live logs enabled. Custom time range selection opens a date and time range picker.
 
-(https://drive.google.com/file/d/1HRlS-VHnM4uwAi9Ew7_AB9_XE2s9OB2J/view?usp=sharing)
+![Logs](https://drive.google.com/file/d/1HRlS-VHnM4uwAi9Ew7_AB9_XE2s9OB2J/view?usp=sharing)
 
 ### Metrics
 
 - Four charts (mix of line and area charts) rendered using Chart.js with React.
 - Selection and dragging over any section within a chart (Peak/valley) provides an option to check logs for the corresponding time range.
 
-(https://drive.google.com/file/d/1WLo7riYKk_dkPO5ENEyRbjBwP-L-Fb_z/view?usp=sharing)
+![Metrics](https://drive.google.com/file/d/1WLo7riYKk_dkPO5ENEyRbjBwP-L-Fb_z/view?usp=sharing)
 
 ## Installation & Setup
 
