@@ -1,9 +1,9 @@
 import React from 'react'
-import MetricsPage from "./MetricsPage"
+import Metricsstory from './Metricsstory'
 
 export default {
     title: 'Metrics',
-    component: MetricsPage
+    component: Metricsstory
 }
 
-export const Metrics = () => <MetricsPage>Metrics</MetricsPage>
+export const Metrics = () => <Metricsstory>Metrics</Metricsstory>

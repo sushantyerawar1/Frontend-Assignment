@@ -3,11 +3,11 @@ import { MimicMetrics } from "../../API/api-mimic";
 import Chart from "chart.js/auto";
 import SelectDragPlugin from "@01coder/chartjs-plugin-selectdrag";
 import { useDispatch, useSelector } from 'react-redux';
-import Popup from "./Popup";
+import Popupstory from "./Popupstory";
 
 Chart.register(SelectDragPlugin);
 
-const MetricsPage = () => {
+const Metricsstory = () => {
 
 
     const [loading, setLoading] = useState(true);
@@ -130,31 +130,31 @@ const MetricsPage = () => {
                     <h1 className="text-2xl font-bold mb-4 ml-2">Metrics</h1>
                     <hr />
                     {showPopup && (
-                        <Popup startTs={startTs} endTs={endTs} onClose={togglePopup} />
+                        <Popupstory startTs={startTs} endTs={endTs} onClose={togglePopup} />
                     )}
                     <div className="flex flex-wrap mt-2">
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 CPU Usage
-                                <canvas id="cpuchart" style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
+                                <canvas id="cpuchart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 Memory Usage
-                                <canvas id="memorychart" style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
+                                <canvas id="memorychart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 Network Usage
-                                <canvas id="networkchart" style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
+                                <canvas id="networkchart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 Disk IOPS
-                                <canvas id="diskIopschart" style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
+                                <canvas id="diskIopschart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                     </div>
@@ -166,4 +166,4 @@ const MetricsPage = () => {
     );
 };
 
-export default MetricsPage;
+export default Metricsstory;
