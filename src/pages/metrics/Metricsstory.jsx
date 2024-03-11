@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MimicMetrics } from "../../API/api-mimic";
 import Chart from "chart.js/auto";
 import SelectDragPlugin from "@01coder/chartjs-plugin-selectdrag";
@@ -8,7 +8,6 @@ import Popupstory from "./Popupstory";
 Chart.register(SelectDragPlugin);
 
 const Metricsstory = () => {
-
 
     const [loading, setLoading] = useState(true);
     const [cpuUsage, setCpuUsage] = useState(null);
@@ -52,13 +51,19 @@ const Metricsstory = () => {
 
 
     const [showPopup, setShowPopup] = useState(false);
+    const [xIndex, setXIndex] = useState(null);
+    const [yIndex, setYIndex] = useState(null);
+    const cputCanvasRef = useRef(null);
+    const memoryCanvasRef = useRef(null);
+    const networkCanvasRef = useRef(null);
+    const diskCanvasRef = useRef(null);
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
     };
 
     useEffect(() => {
-        const renderChart = (data, chartId) => {
+        const renderChart = (data, chartId, chartCanvasRef) => {
             if (data) {
                 const labels = [];
                 const datasets = [];
@@ -80,6 +85,7 @@ const Metricsstory = () => {
 
                 const ctx = document.getElementById(chartId);
                 if (ctx) {
+                    const chartCanvas = chartCanvasRef.current;
                     new Chart(ctx, {
                         type: "line",
                         data: {
@@ -92,7 +98,20 @@ const Metricsstory = () => {
                                     enabled: true,
                                     onSelectComplete: (event) => {
                                         const values = event.range
+                                        const boundingBox = event?.boundingBox;
+                                        const relativeX = boundingBox[2]?.x;
+                                        const relativeY = boundingBox[2]?.y;
+
                                         if (!startTs && !endTs) {
+                                            const canvasRect = chartCanvas?.getBoundingClientRect();
+
+                                            if (canvasRect) {
+                                                const screenX = canvasRect.left + relativeX;
+                                                const screenY = canvasRect.top + relativeY;
+                                                setXIndex(screenX);
+                                                setYIndex(screenY);
+                                            }
+
                                             togglePopup();
                                             changeTS("SET_STARTTS_VALUE", values[0])
                                             changeTS("SET_ENDTS_VALUE", values[1])
@@ -109,9 +128,10 @@ const Metricsstory = () => {
         };
 
         const chartIDs = ["cpuchart", "memorychart", "networkchart", "diskIopschart"]
-        const chartDatas = [cpuUsage, memoryUsage, networkUsage, diskIops]
+        const chartDatas = [cpuUsage, memoryUsage, networkUsage, diskIops];
+        const refff = [cputCanvasRef, memoryCanvasRef, networkCanvasRef, diskCanvasRef]
         for (let i = 0; i < 4; i++) {
-            renderChart(chartDatas[i], chartIDs[i]);
+            renderChart(chartDatas[i], chartIDs[i], refff[i]);
         }
     }, [cpuUsage, memoryUsage, networkUsage, diskIops]);
 
@@ -130,31 +150,31 @@ const Metricsstory = () => {
                     <h1 className="text-2xl font-bold mb-4 ml-2">Metrics</h1>
                     <hr />
                     {showPopup && (
-                        <Popupstory startTs={startTs} endTs={endTs} onClose={togglePopup} />
+                        <Popupstory startTs={startTs} endTs={endTs} onClose={togglePopup} xIndex={xIndex} yIndex={yIndex} />
                     )}
                     <div className="flex flex-wrap mt-2">
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 CPU Usage
-                                <canvas id="cpuchart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
+                                <canvas id="cpuchart" ref={cputCanvasRef} style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 Memory Usage
-                                <canvas id="memorychart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
+                                <canvas id="memorychart" ref={memoryCanvasRef} style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 Network Usage
-                                <canvas id="networkchart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
+                                <canvas id="networkchart" ref={networkCanvasRef} style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                         <div className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 px-2 mb-4">
                             <div className="bg-white-200 h-screen/2 flex-grow p-4 border border-solid border-gray-300 rounded-lg" style={{ color: "rgba(62, 86, 128, 1)" }}>
                                 Disk IOPS
-                                <canvas id="diskIopschart" style={{ width: "100%", height: "200px", cursor: "crosshair" }}></canvas>
+                                <canvas id="diskIopschart" ref={diskCanvasRef} style={{ width: "100%", height: "300px", cursor: "crosshair" }}></canvas>
                             </div>
                         </div>
                     </div>

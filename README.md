@@ -13,7 +13,7 @@ Users can toggle between these screens using the Navbar. The single-page applica
 
 - Selection and dragging over any section within a chart (Peak/valley) provides an option to check logs for the corresponding time range.
 
-![popup](https://github.com/sushantyerawar1/Frontend-Assignment/assets/84599862/3c426f18-ea7d-419e-9a1f-762b51e58df1)
+![popup](https://github.com/sushantyerawar1/Frontend-Assignment/assets/84599862/d193982c-2d38-4b3c-823c-ecf73524731d)
 
 ### Logs
 
